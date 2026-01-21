@@ -15,7 +15,7 @@ services:
       ports:
        - "5555:80"
       environment:
-       MY_IP: "10.125.188.231"
+       MY_IP: "10.125.188.231" #TA says change this in future, when you make requests to other websites. this is an environment var hard coded
 
     php-fpm:
       build: phpdocker/php-fpm

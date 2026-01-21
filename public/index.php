@@ -1,8 +1,12 @@
+<?php
+    require_once("proc_csv.php");
+?>
+
 <html>
 
 <!-- HEAD section ............................................................................ -->
 <head>
-  <title> Yoonsuck Choe's Experimental Web Site </title>
+  <title> Lucus Kim's Experimental Web Site </title>
 
 
   <!-- javascript functions -->
@@ -43,7 +47,7 @@
 <!-- PHP testing area ................................ --> 
 <?php
 
-   echo "<h1> Choe's Experimental CSCE 331 Docker Web Site </h1>\n";
+   echo "<h1> Lucus's Experimental CSCE 331 Docker Web Site </h1>\n";
 
    echo "<font color=\"green\"> Haha update and redeploy </font><p/>\n";
    echo " Testing PHP <br>\n";
