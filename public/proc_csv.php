@@ -74,6 +74,10 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
     //preg_quote from catswhocode.com
     $delimiter_reg = preg_quote($delimiter,"/");
     $quote_reg = preg_quote($quote,"/");
+
+    //regex to find all entries
+    //(?:"(?:[^"]|"")*"|[^,\r\n]*)(?=,|\r?\n|$)
+    $csv_regex = "(?:{$quote_reg}(?:[^{$quote_reg}]|{$quote_reg}{$quote_reg})*{$quote_reg}|[^{$delimiter_reg}\\r\\n]*)(?={delimiter_reg}|\r?\n|$)";
     
 
 }
