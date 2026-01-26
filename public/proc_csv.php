@@ -105,6 +105,11 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
             if($temp === ""){
                 continue; //removing those empty columsn im seein
             }
+            //need to remove the quotes: check if there are quotes on front and back
+            if(strlen($temp) >= 2 && $temp[0] === $quote && $temp[strlen($temp)-1] === $quote){
+                $temp = substr($temp, 1, strlen($temp)-2);
+            }
+
             //appends temp string into rows
             $rows[] = $temp;
         }

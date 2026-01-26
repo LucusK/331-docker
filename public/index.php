@@ -44,6 +44,9 @@
 
 <!-- PHP testing area ................................ --> 
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
    require "./proc_csv.php";
 
@@ -54,7 +57,13 @@
    echo " Hello world!<p/>\n";
 
    echo "<h3>Testing file loading:</h3>\n";
-   proc_csv("test.csv",",","\"","ALL");
+   //proc_csv("test.csv",",","\"","ALL");
+   //echo "\n\n\n";
+   proc_csv("../data/dat-doublequote-comma.csv",",","\"","1:3");
+   proc_csv("../data/dat-doublequote-tab.csv","\t","\"","ALL");
+   proc_csv("../data/dat2-doublequote-comma.csv",",","\"","ALL");
+   proc_csv("../data/dat2-doublequote-tab.csv","\t","\"","ALL");
+   proc_csv("../data/dat2-singlequote-tab.csv","\t","'","ALL");
    
    /*
    # FILE access 
