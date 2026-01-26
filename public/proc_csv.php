@@ -3,7 +3,7 @@
 # function definition: use the exact interface in your code.
 
 function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
-
+    /*
     # function body
     //need to open file
     $file_handle = fopen($filename,"r");
@@ -12,7 +12,9 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
         return;
     }
 
-    if($columns_to_show != "ALL"){
+    //get the columns to show
+    $columns = null;
+    if($columns_to_show !== "ALL"){
         $columns = explode(":",$columns_to_show);
         //for each column nums, convert to int, make 1 show 1st column
         for($i = 0; $i < count($columns); $i++){
@@ -22,6 +24,8 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
     //explode(string $separator, string $string, int $limit = PHP_INT_MAX): array
     // Returns an array of strings, each of which is a substring of string formed by splitting it on boundaries formed by the string separator.
     echo "<table border=\"1\">\n"; //print table borders
+    
+
     
     //Gets line from file pointer and parse for CSV fields
     while(($rows = fgetcsv($file_handle, 0, $delimiter, $quote))!== false){
@@ -48,9 +52,28 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
         echo "</tr>\n";
     }
     echo "</table>\n";
+    */
+/////////////////////
+/////////////////////
+/////////////////////
+    //forgot cant use getcsv so need to implement using regex
+    //refering to https://catswhocode.com/development/php-regex/ for function definitions
+    //store all text in file
+    $page = @file_get_contents($filename);
+    if(!$page){ echo "cannot open file"; return;}
 
-    fclose($file_handle);
-
+    //get the columns to show
+    $columns = null;
+    if($columns_to_show !== "ALL"){
+        $columns = explode(":",$columns_to_show);
+        //for each column nums, convert to int, make 1 show 1st column
+        for($i = 0; $i < count($columns); $i++){
+            $columns[$i] = intval($columns[$i])-1;
+        }
+    }
+    //preg_quote from catswhocode.com
+    $delimiter_reg = preg_quote($delimiter,"/");
+    $quote_reg = preg_quote($quote,"/");
     
 
 }
