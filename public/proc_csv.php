@@ -79,8 +79,10 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
     $quote_reg = preg_quote($quote,"/");
 
     //regex to find all entries
-    //(?:"(?:[^"]|"")*"|[^,\r\n]*)(?=,|\r?\n|$)
-    $csv_regex = "/(?:{$quote_reg}(?:[^{$quote_reg}]|{$quote_reg}{$quote_reg})*{$quote_reg}|[^{$delimiter_reg}\\r\\n]*)(?={$delimiter_reg}|\r?\n|$)/";
+    //thought process: "(?:[^"]|"")*" matches a field with double quotes: any char except double quote or two double quote in a row
+    // or |[^,\r\n]* matches any character except delimiter, returns and newlines
+    //(?:"(?:[^"]|"")*"|[^,\r\n]*)
+    $csv_regex = "/(?:{$quote_reg}(?:[^{$quote_reg}]|{$quote_reg}{$quote_reg})*{$quote_reg}|[^{$delimiter_reg}\\r\\n]*)/";
     
     echo "<table border=\"1\">\n";
 
