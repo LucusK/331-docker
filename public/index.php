@@ -1,6 +1,4 @@
-<?php
-    require_once("proc_csv.php");
-?>
+
 
 <html>
 
@@ -46,6 +44,7 @@
 
 <!-- PHP testing area ................................ --> 
 <?php
+   
 
    echo "<h1> Lucus's Experimental CSCE 331 Docker Web Site </h1>\n";
 
