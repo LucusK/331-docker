@@ -102,6 +102,9 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
         $rows = array();
         for($i = 0; $i < count($cells); $i++){
             $temp = $cells[$i];
+            if($temp === ""){
+                continue; //removing those empty columsn im seein
+            }
             //appends temp string into rows
             $rows[] = $temp;
         }
