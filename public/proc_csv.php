@@ -39,20 +39,29 @@ function proc_csv ($filename, $delimiter, $quote, $columns_to_show) {
         //for specific columns
         else{
             for($k = 0; $k < count($columns); $k++){
+                //add row for each column
+                echo "<td>".$rows[$columns[$k]]."</td>\n";
                 
             }
         }
+        ///end row
+        echo "</tr>\n";
     }
+    echo "</table>\n";
+
+    fclose($file_handle);
+
+    
 
 }
 
-...
+
 
 # example calls
 
-proc_csv("test.csv",",","\"", "1:3:4:7");
+#proc_csv("test.csv",",","\"", "1:3:4:7");
 
-proc_csv("test.csv",",","\"", "ALL");
+# proc_csv("test.csv",",","\"", "ALL");
 
 # output would be formatted HTML code (table), that will be embedded where the above call is made in the PHP file.
 

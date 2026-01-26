@@ -44,7 +44,8 @@
 
 <!-- PHP testing area ................................ --> 
 <?php
-   
+
+   require "./proc_csv.php";
 
    echo "<h1> Lucus's Experimental CSCE 331 Docker Web Site </h1>\n";
 
@@ -53,7 +54,9 @@
    echo " Hello world!<p/>\n";
 
    echo "<h3>Testing file loading:</h3>\n";
-
+   proc_csv("test.csv",",","\"","ALL");
+   
+   /*
    # FILE access 
    # $h = fopen("false.dat","r");
 
@@ -83,6 +86,7 @@
    echo "rand : ".$data_cols[rand(0,1)]."\n";
 
    echo "<p/>";
+   */
 
 ?>
 
