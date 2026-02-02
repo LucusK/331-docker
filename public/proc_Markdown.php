@@ -17,17 +17,17 @@ function proc_markdown ($filename) {
 
     $unorderedlist = false;
     $unorderedlist2 = false; #nested
-    $unorder = false;
+    $unorder = false; #flag for whether im in the unordered list
 
     $orderedlist = false;
     $orderedlist2 = false; #nested
-    $order = false;
+    $order = false; #same reason as unorder
 
     foreach($string_array as $curr_string){
         
         #check for blank line to end paragraph or any lists
         if(trim($curr_string) === ""){
-            #check if already in paragraph
+            #check if already in paragraph or list
             if($paragraph){
                 echo "</p>\n";
                 $paragraph = false;
@@ -58,7 +58,9 @@ function proc_markdown ($filename) {
 
         #check headings, remember . is concatentation
         #substr: string, starting, ending
+        #used ltrim and rtrim from php.net: returns a string with whitespace (or other characters) stripped from the end of string.
         if(substr(ltrim($curr_string),0,2)=== "# "){
+            #check if already in paragraph or list
             if($paragraph){
                 echo "</p>\n";
                 $paragraph = false;
@@ -87,6 +89,7 @@ function proc_markdown ($filename) {
             continue;
         }
         if(substr(ltrim($curr_string),0,3)=== "## "){
+            #check if already in paragraph or list
             if($paragraph){
                 echo "</p>\n";
                 $paragraph = false;
@@ -115,6 +118,7 @@ function proc_markdown ($filename) {
             continue;
         }
         if(substr(ltrim($curr_string),0,4)=== "### "){
+            #check if already in paragraph or list
             if($paragraph){
                 echo "</p>\n";
                 $paragraph = false;
@@ -143,7 +147,7 @@ function proc_markdown ($filename) {
 
         #unordered list  regex checks for non-charactrs then a * followed by the capture group for rest of line
         if (preg_match('/^(\s*)\*\s+(.*)$/', $curr_string, $match)) { #list mode
-            #gotta close other modes
+            #if you are already in orderedlist or paragraph, leave it
             if($orderedlist2){
                 echo "</ul>\n";
                 $orderedlist2 = false;
