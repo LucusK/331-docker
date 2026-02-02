@@ -49,6 +49,8 @@
     error_reporting(E_ALL);
 
    require "./proc_csv.php";
+   require "./proc_Markdown.php";
+
 
    echo "<h1> Lucus's Experimental CSCE 331 Docker Web Site </h1>\n";
 
@@ -64,6 +66,8 @@
    proc_csv("../data/dat2-doublequote-comma.csv",",","\"","ALL");
    proc_csv("../data/dat2-doublequote-tab.csv","\t","\"","ALL");
    proc_csv("../data/dat2-singlequote-tab.csv","\t","'","ALL");
+
+   proc_markdown("../data/markdown.md");
    
    /*
    # FILE access 

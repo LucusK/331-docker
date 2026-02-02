@@ -14,18 +14,43 @@ function proc_markdown ($filename) {
 
     #track states
     $paragraph = false;
+
     $unorderedlist = false;
     $unorderedlist2 = false; #nested
+    $unorder = false;
+
     $orderedlist = false;
     $orderedlist2 = false; #nested
+    $order = false;
 
     foreach($string_array as $curr_string){
-        #check for blank line for paragraph break
+        
+        #check for blank line to end paragraph or any lists
         if(trim($curr_string) === ""){
             #check if already in paragraph
             if($paragraph){
                 echo "</p>\n";
                 $paragraph = false;
+            }
+            if($unorderedlist2){
+                echo "</ul>\n";
+                $unorderedlist2 = false;
+            }
+            if($unorderedlist){
+                echo "</ul>\n";
+                $unorderedlist = false;
+            }
+            if($unorder){
+                    echo "</li>\n";
+                    $unorder = false;
+                }
+            if($orderedlist2){
+                echo "</ul>\n";
+                $orderedlist2 = false;
+            }
+            if($orderedlist){
+                echo "</ol>\n";
+                $orderedlist = false;
             }
             continue;
         }
@@ -33,16 +58,84 @@ function proc_markdown ($filename) {
 
         #check headings, remember . is concatentation
         #substr: string, starting, ending
-        if(substr($curr_string,0,2)=== "# "){
-            echo "<h1>" . helperStyling(substr($curr_string, 2)) . "</h1>\n";
+        if(substr(ltrim($curr_string),0,2)=== "# "){
+            if($paragraph){
+                echo "</p>\n";
+                $paragraph = false;
+            }
+            if($unorderedlist2){
+                echo "</ul>\n";
+                $unorderedlist2 = false;
+            }
+            if($unorderedlist){
+                echo "</ul>\n";
+                $unorderedlist = false;
+            }
+            if($unorder){
+                    echo "</li>\n";
+                    $unorder = false;
+                }
+            if($orderedlist2){
+                echo "</ul>\n";
+                $orderedlist2 = false;
+            }
+            if($orderedlist){
+                echo "</ol>\n";
+                $orderedlist = false;
+            }
+            echo "<h1>" . helperStyling(substr(ltrim($curr_string), 2)) . "</h1>\n";
             continue;
         }
-        if(substr($curr_string,0,3)=== "## "){
-            echo "<h2>" . helperStyling(substr($curr_string, 3)) . "</h2>\n";
+        if(substr(ltrim($curr_string),0,3)=== "## "){
+            if($paragraph){
+                echo "</p>\n";
+                $paragraph = false;
+            }
+            if($unorderedlist2){
+                echo "</ul>\n";
+                $unorderedlist2 = false;
+            }
+            if($unorderedlist){
+                echo "</ul>\n";
+                $unorderedlist = false;
+            }
+            if($unorder){
+                    echo "</li>\n";
+                    $unorder = false;
+                }
+            if($orderedlist2){
+                echo "</ul>\n";
+                $orderedlist2 = false;
+            }
+            if($orderedlist){
+                echo "</ol>\n";
+                $orderedlist = false;
+            }
+            echo "<h2>" . helperStyling(substr(ltrim($curr_string), 3)) . "</h2>\n";
             continue;
         }
-        if(substr($curr_string,0,4)=== "### "){
-            echo "<h3>" . helperStyling(substr($curr_string, 4)) . "</h3>\n";
+        if(substr(ltrim($curr_string),0,4)=== "### "){
+            if($paragraph){
+                echo "</p>\n";
+                $paragraph = false;
+            }
+            if($unorderedlist2){
+                echo "</ul>\n";
+                $unorderedlist2 = false;
+            }
+            if($unorderedlist){
+                echo "</ul>\n";
+                $unorderedlist = false;
+            }
+            if($orderedlist2){
+                echo "</ul>\n";
+                $orderedlist2 = false;
+            }
+            if($orderedlist){
+                echo "</ol>\n";
+                $orderedlist = false;
+            }
+            echo "<h3>" . helperStyling(substr(ltrim($curr_string), 4)) . "</h3>\n";
             continue;
         }
 
@@ -50,6 +143,20 @@ function proc_markdown ($filename) {
 
         #unordered list  regex checks for non-charactrs then a * followed by the capture group for rest of line
         if (preg_match('/^(\s*)\*\s+(.*)$/', $curr_string, $match)) { #list mode
+            #gotta close other modes
+            if($orderedlist2){
+                echo "</ul>\n";
+                $orderedlist2 = false;
+            }
+            if($orderedlist){
+                echo "</ol>\n";
+                $orderedlist = false;
+            }
+            if($paragraph){
+                echo "</p>\n";
+                $paragraph = false;
+            }
+
             if(!$unorderedlist){ #start top of unordered list
                 echo "<ul>\n";
                 $unorderedlist = true;
@@ -57,9 +164,10 @@ function proc_markdown ($filename) {
             #see if nested, if first match is more 1 space
             if(strlen($match[1]) >= 2) {
                 #start nested list
+                
                 if(!$unorderedlist2){
-                    echo "<ul>\n";
-                    $unorderedlist = true;
+                    echo "\n<ul>\n";
+                    $unorderedlist2 = true;
                 }
                 echo "<li>" . helperStyling($match[2]) . "</li>\n";
             }
@@ -68,7 +176,12 @@ function proc_markdown ($filename) {
                     echo "</ul>\n";
                     $unorderedlist2 = false;
                 }
+                if($unorder){
+                    echo "</li>\n";
+                    $unorder = false;
+                }
                 echo "<li>" . helperStyling($match[2]) . "</li>\n";
+                $unorder = true;
             }           
             continue;
         }
@@ -80,18 +193,46 @@ function proc_markdown ($filename) {
                 echo "<ol>\n";
                 $orderedlist = true;
             }
+            if($orderedlist2){
+                echo "</ul>\n";
+                $orderedlist2 = false;
+            }
             echo "<li>" . helperStyling($match[1]) . "</li>\n";
             continue;
         }
         #nested ordered, regex check if starts with -
         if(preg_match('/^\s*-\s+(.*)$/', $curr_string, $match)) {
             if(!$orderedlist2){
-                echo "<ol>\n";
+                echo "<ul>\n";
                 $orderedlist2 = true;
             }
             echo "<li>" . helperStyling($match[1]) . "</li>\n";
             continue;
         }
+
+        #normal text, close all
+
+        if($unorderedlist2){
+            echo "</ul>\n";
+            $unorderedlist2 = false;
+        }
+        if($unorder){
+            echo "</li>\n";
+                $unorder = false;
+        }
+        if($unorderedlist){
+            echo "</ul>\n";
+            $unorderedlist = false;
+        }
+        if($orderedlist2){
+            echo "</ul>\n";
+            $orderedlist2 = false;
+        }
+        if($orderedlist){
+            echo "</ol>\n";
+            $orderedlist = false;
+        }
+
 
         #make ending a new paragraph
         if(!$paragraph){
@@ -102,8 +243,10 @@ function proc_markdown ($filename) {
     }
     if ($paragraph) echo "</p>\n";
     if ($unorderedlist2) echo "</ul>\n";
+    if ($unorder) echo "</li>\n";
     if ($unorderedlist) echo "</ul>\n";
-    if ($orderedlist2) echo "</ol>\n";
+
+    if ($orderedlist2) echo "</ul>\n";
     if ($orderedlist) echo "</ol>\n";
 }
 
@@ -115,11 +258,17 @@ function helperStyling($in){
     $in = preg_replace('/_(.+?)_/', '<i>$1</i>', $in);
     #<ins>UNDERLINED</ins> doesnt need to be changed idt
 
+    #need image first bc link alrdy matches image
+    #images ![alt text](url), similar regex but with a !, and just match anything in [] and ()
+    $in = preg_replace('/!\[([^\]]*)\]\(([^)]+)\)/', '<img src="$2" alt="$1">', $in);
+
+
     #links  [name](url). regex matches [any char or more]( anything except ), or more)
     $in = preg_replace('/\[(.*?)\]\(([^)]+)\)/', '<a href="$2">$1</a>', $in);
 
-    #images ![alt text](url), similar regex but with a !, and just match anything in [] and ()
-    $in = preg_replace('/!\[([^\]]*)\]\(([^)]+)\)/', '<img src="$2" alt="$1">', $in);
+    
+
+    return $in;
 }
 
 # example call
