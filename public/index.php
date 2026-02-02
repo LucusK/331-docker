@@ -50,6 +50,7 @@
 
    require "./proc_csv.php";
    require "./proc_Markdown.php";
+   require "./search.php";
 
 
    echo "<h1> Lucus's Experimental CSCE 331 Docker Web Site </h1>\n";
@@ -57,6 +58,8 @@
    echo "<font color=\"green\"> Haha update and redeploy </font><p/>\n";
    echo " Testing PHP <br>\n";
    echo " Hello world!<p/>\n";
+
+
 
    echo "<h3>Testing file loading:</h3>\n";
    //proc_csv("test.csv",",","\"","ALL");
@@ -69,6 +72,10 @@
 
    proc_markdown("../data/markdown.md");
    
+   echo "before search<br>";
+   search("Hello");
+   echo "after search<br>";
+
    /*
    # FILE access 
    # $h = fopen("false.dat","r");

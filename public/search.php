@@ -24,21 +24,28 @@ function search($string)  {
     $all_files = array_merge($php_files, $html_files);
 
     foreach($all_files as $curr_file){
+        $base = basename($curr_file);
+        if ($base === "index.php" || $base === "search.php") {
+            continue;
+        }
         #converts its file path into a URL on localhost:5555
-        $url = "http://localhost:5555" . substr($curr_file, strlen($web_root_dir));
-        echo "trying: $url<br>";
+        $link_url = "http://localhost:5555" . substr($curr_file, strlen($web_root_dir));
+        $test_url = "http://webserver" . substr($curr_file, strlen($web_root_dir));
+        echo "trying: $test_url<br>";
 
         #loads the page through the web server so that any PHP code is executed and the final HTML output is retrieved
         #turn into html using file_get_contents
         # php.net says this reads entire file into string. it also would generate the page in the website first before sending it over
-        $file_string = @file_get_contents($url); 
+        $file_string = @file_get_contents($test_url); 
         if($file_string === false){
+            echo "FETCH FAILED<br>\n";
             continue;
         } #we basically store all contents in a string
         #search on this generated HTML to check whether the search keyword appears
-        if(str_contains($file_string, $query)){ #found from php.net: Determine if a string contains a given substring
-            $matches[] = $url; #found this is same as array_push, in definition on php.net
+        if (stripos($file_string, $query) !== false) { #originally had str_contains, but that doesnt work on this php version
+            $matches[] = $link_url; #found this is same as array_push, in definition on php.net
         }
+        
     }
     #outputs an ordered list of hyperlinks to all pages that contain the search
     echo "matches: " . count($matches) . "<br>\n";
