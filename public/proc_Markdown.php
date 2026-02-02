@@ -35,15 +35,15 @@ function proc_markdown ($filename) {
         #substr: string, starting, ending
         if(substr($curr_string,0,2)=== "# "){
             echo "<h1>" . helperStyling(substr($curr_string, 2)) . "</h1>\n";
-            continue
+            continue;
         }
         if(substr($curr_string,0,3)=== "## "){
             echo "<h2>" . helperStyling(substr($curr_string, 3)) . "</h2>\n";
-            continue
+            continue;
         }
         if(substr($curr_string,0,4)=== "### "){
             echo "<h3>" . helperStyling(substr($curr_string, 4)) . "</h3>\n";
-            continue
+            continue;
         }
 
 
