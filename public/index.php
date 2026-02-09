@@ -51,6 +51,7 @@
    require "./proc_csv.php";
    require "./proc_Markdown.php";
    require "./search.php";
+   require "./proc_gallery.php";
 
 
    echo "<h1> Lucus's Experimental CSCE 331 Docker Web Site </h1>\n";
@@ -76,7 +77,11 @@
    search("Hello");
    echo "after search<br>";
 
+   proc_gallery("my_favorites.csv", "matrix", "date_newest");
+
+   proc_gallery("my_favorites.csv", "list", "size_largest");
    /*
+
    # FILE access 
    # $h = fopen("false.dat","r");
 
@@ -148,9 +153,9 @@ Search: <input type="text" name="name">
 Search academic genealogy (external link: <a href="https://www.mathgenealogy.org">https://www.mathgenealogy.org</a>): <p/>
 <form action="https://www.mathgenealogy.org/query-prep.php" method="post">
 Firstname:
-<input type="text" name="given_name" value="Yoonsuck">  <br/>
+<input type="text" name="given_name" value="Lucus">  <br/>
 Lastname:
-<input type="text" name="family_name" value="Choe"> 
+<input type="text" name="family_name" value="Kim"> 
 <input type="submit">
 </form>
 <p/>
