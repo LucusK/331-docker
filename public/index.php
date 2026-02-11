@@ -74,7 +74,7 @@
    proc_markdown("../data/finalmarkdown.md");
    
    echo "before search<br>";
-   search("Hello");
+   search("Update");
    echo "after search<br>";
 
    proc_gallery("my_favorites.csv", "matrix", "date_newest");
