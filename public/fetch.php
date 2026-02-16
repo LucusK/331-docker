@@ -25,6 +25,10 @@ Fetch and display HTML code from a URL.
 
 <?php
 
+require "./proc_csv.php";
+
+proc_csv("../data/dat-doublequote-comma.csv",",","\"","1:3");
+
 ########################################
 # fetch_html function
 ########################################

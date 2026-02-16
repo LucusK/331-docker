@@ -73,7 +73,7 @@
    proc_markdown("../data/markdown.md");
    
    echo "before search<br>";
-   search("Hello");
+   search("abcdefg");
    echo "after search<br>";
 
    /*
